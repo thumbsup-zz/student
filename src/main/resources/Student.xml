@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.StudentMapper">
+
+	<resultMap type="bo.Student" id="StudentMap">
+		<result property="id" column="id" />
+		<result property="firtName" column="firtName" />
+		<result property="lastName" column="lastName" />
+		<result property="sex" column="sex" />
+		<result property="age" column="age" />
+		<result property="height" column="height" />
+		<result property="weight" column="weight" />
+		<result property="createdOn" column="createdOn" />
+		<result property="createdBy" column="createdBy" />
+		<result property="updatedOn" column="updatedOn" />
+		<result property="updatedBy" column="updatedBy" />
+		<result property="deletedOn" column="deletedOn" />
+		<result property="deletedBy" column="deletedBy" />
+		
+	</resultMap>
+
+	<select id="getStudentById" resultMap="StudentMap">
+		SELECT * from student where id = #{value,jdbcType=NUMERIC} 
+	</select>
+	
+	<select id="getStudentByFirstName" resultMap="StudentMap">
+		SELECT * from student where firstName like #{value} 
+	</select>
+	
+	<select id="getAll" resultMap="StudentMap">
+		SELECT * from student
+	</select>	
+	
+	<insert id="putStudent" parameterType="bo.Student" useGeneratedKeys="true" >
+	  	insert into student (firstName,lastName,sex,age,height,weight,createdOn,createdBy,updatedOn,updatedBy,deletedOn,deletedBy)
+	  	values (#{firstName}, #{lastName}, #{sex},#{age},#{height},#{weight},#{createdOn},#{createdBy},#{updatedOn},#{updatedBy},#{deletedOn},#{deletedBy})
+	  	
+      <selectKey keyProperty = "id" resultType = "long" order = "AFTER">
+         select last_insert_id() as id
+      </selectKey>  	  	
+	  	
+	</insert>	
+	
+	
+	
+</mapper>
